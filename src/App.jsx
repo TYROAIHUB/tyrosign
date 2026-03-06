@@ -928,42 +928,108 @@ export default function App() {
   if (MSAL_ENABLED && !msalAccount) {
     return (
       <div style={{
-        fontFamily: 'Inter,sans-serif', background: C.bg, color: C.text1,
-        minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontFamily: 'Inter,sans-serif',
+        minHeight: '100vh', display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center',
+        background: 'linear-gradient(160deg, #0a1628 0%, #132743 30%, #1e3a5f 60%, #15304f 100%)',
+        position: 'relative', overflow: 'hidden',
       }}>
-        <style>{GLOBAL_CSS}</style>
+        <style>{GLOBAL_CSS}{`
+          @keyframes splashOrb1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
+          @keyframes splashOrb2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-40px,30px) scale(1.15); } }
+          @keyframes splashFadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+          @keyframes splashPulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
+          @keyframes splashShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
+          .splash-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200,146,42,0.35)!important; }
+          .splash-btn:active { transform: translateY(0); }
+        `}</style>
+
+        {/* Animated gradient orbs */}
         <div style={{
-          textAlign: 'center', padding: '3rem 2rem',
-          background: C.surface, borderRadius: 20,
-          border: `1px solid ${C.border}`, boxShadow: C.shadowLg,
-          backdropFilter: 'blur(16px)', maxWidth: 400, width: '90%',
+          position: 'absolute', width: 400, height: 400, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(200,146,42,0.12) 0%, transparent 70%)',
+          top: '-10%', right: '-5%', animation: 'splashOrb1 8s ease-in-out infinite',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{
+          position: 'absolute', width: 350, height: 350, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(0,152,212,0.1) 0%, transparent 70%)',
+          bottom: '-8%', left: '-5%', animation: 'splashOrb2 10s ease-in-out infinite',
+          filter: 'blur(40px)',
+        }} />
+        <div style={{
+          position: 'absolute', width: 200, height: 200, borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(30,58,95,0.3) 0%, transparent 70%)',
+          top: '40%', left: '60%', animation: 'splashOrb1 12s ease-in-out infinite reverse',
+          filter: 'blur(60px)',
+        }} />
+
+        {/* Main card */}
+        <div style={{
+          textAlign: 'center', padding: '2.5rem 2.5rem 2rem',
+          background: 'rgba(255,255,255,0.06)',
+          borderRadius: 24, maxWidth: 420, width: '90%',
+          border: '1px solid rgba(255,255,255,0.1)',
+          backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+          boxShadow: '0 24px 80px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
+          animation: 'splashFadeUp 0.8s ease-out',
+          position: 'relative', zIndex: 2,
         }}>
-          {/* Logo */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <TyroLogo size={56} />
-          </div>
-          <h1 style={{
-            fontSize: '1.5rem', fontWeight: 800, color: C.primary,
-            fontFamily: 'Plus Jakarta Sans,sans-serif', margin: '0 0 0.25rem',
+          {/* Logo with glow */}
+          <div style={{
+            marginBottom: '1.25rem', position: 'relative', display: 'inline-block',
           }}>
-            TYRO <span style={{ color: C.accent }}>Sign Snap</span>
+            <div style={{
+              position: 'absolute', inset: -12, borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(200,146,42,0.2) 0%, transparent 70%)',
+              filter: 'blur(8px)', animation: 'splashPulse 3s ease-in-out infinite',
+            }} />
+            <TyroLogo size={64} />
+          </div>
+
+          {/* Title */}
+          <h1 style={{
+            fontSize: '1.75rem', fontWeight: 800, color: '#fff',
+            fontFamily: 'Plus Jakarta Sans,sans-serif', margin: '0 0 0.15rem',
+            letterSpacing: '-0.5px',
+          }}>
+            TYRO <span style={{
+              color: '#c8922a',
+              background: 'linear-gradient(135deg, #e8c560, #c8922a, #e8c560)',
+              backgroundSize: '200% auto',
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+              animation: 'splashShimmer 4s linear infinite',
+            }}>Sign Snap</span>
           </h1>
-          <p style={{ fontSize: '0.8rem', color: C.textM, margin: '0 0 2rem' }}>
+
+          {/* Accent divider */}
+          <div style={{
+            width: 48, height: 3, borderRadius: 2, margin: '0.75rem auto',
+            background: 'linear-gradient(90deg, #c8922a, #0098d4)',
+          }} />
+
+          <p style={{
+            fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', margin: '0 0 2rem',
+            fontWeight: 400, letterSpacing: '0.3px',
+          }}>
             {lang === 'tr' ? 'Kurumsal E-Posta İmza Oluşturucu' : 'Corporate Email Signature Studio'}
           </p>
 
-          {/* Login Button */}
-          <button onClick={handleLogin} disabled={authLoading || !msalReady} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem',
-            width: '100%', padding: '0.75rem 1.5rem', borderRadius: 12,
-            border: 'none', cursor: (authLoading || !msalReady) ? 'wait' : 'pointer',
-            background: `linear-gradient(135deg, ${C.primary}, ${C.primarySoft})`,
-            color: '#fff', fontSize: '0.85rem', fontWeight: 700,
-            fontFamily: 'Inter,sans-serif', transition: 'all 0.3s ease',
-            boxShadow: `0 4px 16px ${C.primary}30`,
-            opacity: (authLoading || !msalReady) ? 0.7 : 1,
+          {/* Microsoft Login Button */}
+          <button className="splash-btn" onClick={handleLogin} disabled={authLoading || !msalReady} style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem',
+            width: '100%', padding: '0.85rem 1.5rem', borderRadius: 14,
+            border: '1px solid rgba(200,146,42,0.3)',
+            cursor: (authLoading || !msalReady) ? 'wait' : 'pointer',
+            background: 'linear-gradient(135deg, rgba(200,146,42,0.15), rgba(200,146,42,0.05))',
+            color: '#fff', fontSize: '0.88rem', fontWeight: 600,
+            fontFamily: 'Inter,sans-serif',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            boxShadow: '0 4px 20px rgba(200,146,42,0.15)',
+            opacity: (authLoading || !msalReady) ? 0.6 : 1,
+            backdropFilter: 'blur(8px)',
           }}>
-            <svg width="18" height="18" viewBox="0 0 21 21" fill="none">
+            <svg width="20" height="20" viewBox="0 0 21 21" fill="none">
               <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
               <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
               <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
@@ -976,21 +1042,52 @@ export default function App() {
           </button>
 
           {/* Language toggle */}
-          <div style={{ marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '0.5rem' }}>
-            <button onClick={() => setLang('tr')} style={{
-              padding: '0.25rem 0.6rem', borderRadius: 6, border: 'none', cursor: 'pointer',
-              fontSize: '0.65rem', fontWeight: 700,
-              background: lang === 'tr' ? C.primary : 'transparent', color: lang === 'tr' ? '#fff' : C.textM,
-            }}>TR</button>
-            <button onClick={() => setLang('en')} style={{
-              padding: '0.25rem 0.6rem', borderRadius: 6, border: 'none', cursor: 'pointer',
-              fontSize: '0.65rem', fontWeight: 700,
-              background: lang === 'en' ? C.primary : 'transparent', color: lang === 'en' ? '#fff' : C.textM,
-            }}>EN</button>
+          <div style={{
+            marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '0.3rem',
+          }}>
+            {['tr', 'en'].map(l => (
+              <button key={l} onClick={() => setLang(l)} style={{
+                padding: '0.3rem 0.75rem', borderRadius: 8,
+                border: lang === l ? '1px solid rgba(200,146,42,0.4)' : '1px solid transparent',
+                cursor: 'pointer', fontSize: '0.65rem', fontWeight: 700,
+                fontFamily: 'Inter,sans-serif',
+                background: lang === l ? 'rgba(200,146,42,0.15)' : 'transparent',
+                color: lang === l ? '#e8c560' : 'rgba(255,255,255,0.35)',
+                transition: 'all 0.2s ease', textTransform: 'uppercase',
+              }}>{l}</button>
+            ))}
           </div>
+        </div>
 
-          <p style={{ fontSize: '0.6rem', color: C.textM, marginTop: '1.5rem', opacity: 0.6 }}>
-            Powered by TTECH Business Solutions
+        {/* TTECH Footer — prominent branding */}
+        <div style={{
+          marginTop: '2.5rem', textAlign: 'center',
+          animation: 'splashFadeUp 0.8s ease-out 0.3s both',
+          position: 'relative', zIndex: 2,
+        }}>
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+            marginBottom: '0.35rem',
+          }}>
+            <div style={{
+              width: 24, height: 24, borderRadius: 6,
+              background: 'linear-gradient(135deg, #c8922a, #e8c560)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 2px 8px rgba(200,146,42,0.3)',
+            }}>
+              <span style={{ color: '#fff', fontSize: '0.65rem', fontWeight: 900, fontFamily: 'Plus Jakarta Sans,sans-serif' }}>TT</span>
+            </div>
+            <span style={{
+              fontSize: '0.78rem', fontWeight: 700, color: 'rgba(255,255,255,0.7)',
+              fontFamily: 'Plus Jakarta Sans,sans-serif', letterSpacing: '1.5px',
+              textTransform: 'uppercase',
+            }}>TTECH Business Solutions</span>
+          </div>
+          <p style={{
+            fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', margin: 0,
+            letterSpacing: '0.5px',
+          }}>
+            © 2026 Tiryaki Agro · {lang === 'tr' ? 'Tüm hakları saklıdır' : 'All rights reserved'}
           </p>
         </div>
       </div>
