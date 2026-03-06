@@ -1068,8 +1068,8 @@ export default function App() {
           <p style={{
             fontSize: '0.78rem', fontWeight: 700, color: 'rgba(255,255,255,0.7)',
             fontFamily: 'Plus Jakarta Sans,sans-serif', letterSpacing: '1.5px',
-            textTransform: 'uppercase', margin: '0 0 0.35rem',
-          }}>TTECH Business Solutions</p>
+            margin: '0 0 0.35rem',
+          }}>TTECH BUSINESS SOLUTIONS</p>
           <p style={{
             fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', margin: 0,
             letterSpacing: '0.5px',
