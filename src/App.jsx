@@ -1065,24 +1065,11 @@ export default function App() {
           animation: 'splashFadeUp 0.8s ease-out 0.3s both',
           position: 'relative', zIndex: 2,
         }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
-            marginBottom: '0.35rem',
-          }}>
-            <div style={{
-              width: 24, height: 24, borderRadius: 6,
-              background: 'linear-gradient(135deg, #c8922a, #e8c560)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              boxShadow: '0 2px 8px rgba(200,146,42,0.3)',
-            }}>
-              <span style={{ color: '#fff', fontSize: '0.65rem', fontWeight: 900, fontFamily: 'Plus Jakarta Sans,sans-serif' }}>TT</span>
-            </div>
-            <span style={{
-              fontSize: '0.78rem', fontWeight: 700, color: 'rgba(255,255,255,0.7)',
-              fontFamily: 'Plus Jakarta Sans,sans-serif', letterSpacing: '1.5px',
-              textTransform: 'uppercase',
-            }}>TTECH Business Solutions</span>
-          </div>
+          <p style={{
+            fontSize: '0.78rem', fontWeight: 700, color: 'rgba(255,255,255,0.7)',
+            fontFamily: 'Plus Jakarta Sans,sans-serif', letterSpacing: '1.5px',
+            textTransform: 'uppercase', margin: '0 0 0.35rem',
+          }}>TTECH Business Solutions</p>
           <p style={{
             fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', margin: 0,
             letterSpacing: '0.5px',
