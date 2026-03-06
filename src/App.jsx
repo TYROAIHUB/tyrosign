@@ -938,10 +938,36 @@ export default function App() {
           @keyframes splashOrb1 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-40px) scale(1.1); } }
           @keyframes splashOrb2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-40px,30px) scale(1.15); } }
           @keyframes splashFadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-          @keyframes splashPulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
           @keyframes splashShimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
           .splash-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(200,146,42,0.35)!important; }
           .splash-btn:active { transform: translateY(0); }
+          @keyframes signDraw {
+            0% { stroke-dashoffset: 400; }
+            100% { stroke-dashoffset: 0; }
+          }
+          @keyframes penMove {
+            0% { offset-distance: 0%; opacity: 1; }
+            85% { offset-distance: 85%; opacity: 1; }
+            100% { offset-distance: 100%; opacity: 0; }
+          }
+          @keyframes penMoveFallback {
+            0% { transform: translate(10px, 48px) rotate(-45deg); opacity: 1; }
+            15% { transform: translate(55px, 15px) rotate(-45deg); opacity: 1; }
+            30% { transform: translate(100px, 15px) rotate(-45deg); opacity: 1; }
+            50% { transform: translate(55px, 30px) rotate(-50deg); opacity: 1; }
+            70% { transform: translate(55px, 70px) rotate(-55deg); opacity: 1; }
+            85% { transform: translate(90px, 75px) rotate(-45deg); opacity: 1; }
+            95% { transform: translate(110px, 68px) rotate(-40deg); opacity: 0.5; }
+            100% { transform: translate(120px, 65px) rotate(-40deg); opacity: 0; }
+          }
+          @keyframes splashGlow {
+            0%,100% { filter: drop-shadow(0 0 6px rgba(200,146,42,0.3)); }
+            50% { filter: drop-shadow(0 0 16px rgba(200,146,42,0.5)); }
+          }
+          @keyframes contentReveal {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
         `}</style>
 
         {/* Animated gradient orbs */}
@@ -957,44 +983,76 @@ export default function App() {
           bottom: '-8%', left: '-5%', animation: 'splashOrb2 10s ease-in-out infinite',
           filter: 'blur(40px)',
         }} />
-        <div style={{
-          position: 'absolute', width: 200, height: 200, borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(30,58,95,0.3) 0%, transparent 70%)',
-          top: '40%', left: '60%', animation: 'splashOrb1 12s ease-in-out infinite reverse',
-          filter: 'blur(60px)',
-        }} />
 
         {/* Main card */}
         <div style={{
           textAlign: 'center', padding: '2.5rem 2.5rem 2rem',
           background: 'rgba(255,255,255,0.06)',
-          borderRadius: 24, maxWidth: 420, width: '90%',
+          borderRadius: 24, maxWidth: 440, width: '92%',
           border: '1px solid rgba(255,255,255,0.1)',
           backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
           boxShadow: '0 24px 80px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.1)',
-          animation: 'splashFadeUp 0.8s ease-out',
+          animation: 'splashFadeUp 0.6s ease-out',
           position: 'relative', zIndex: 2,
         }}>
-          {/* Logo with glow */}
+
+          {/* ─── Signature Animation Area ─── */}
           <div style={{
-            marginBottom: '1.25rem', position: 'relative', display: 'inline-block',
+            position: 'relative', width: 140, height: 100, margin: '0 auto 1rem',
+            animation: 'splashGlow 3s ease-in-out infinite',
           }}>
-            <div style={{
-              position: 'absolute', inset: -12, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(200,146,42,0.2) 0%, transparent 70%)',
-              filter: 'blur(8px)', animation: 'splashPulse 3s ease-in-out infinite',
-            }} />
-            <TyroLogo size={64} />
+            <svg viewBox="0 0 140 100" width="140" height="100" fill="none" style={{ overflow: 'visible' }}>
+              <defs>
+                <linearGradient id="inkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#e8c560" />
+                  <stop offset="50%" stopColor="#c8922a" />
+                  <stop offset="100%" stopColor="#b07818" />
+                </linearGradient>
+              </defs>
+
+              {/* Signature "T" path — calligraphic stroke */}
+              <path
+                d="M15,50 Q20,18 55,18 Q75,18 100,22 M55,18 Q50,28 52,45 Q54,60 60,75 Q65,82 80,78 Q95,74 110,68"
+                stroke="url(#inkGrad)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+                fill="none"
+                style={{
+                  strokeDasharray: 400,
+                  strokeDashoffset: 400,
+                  animation: 'signDraw 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards',
+                }}
+              />
+              {/* Decorative dot at end */}
+              <circle cx="112" cy="67" r="2.5" fill="#c8922a" style={{
+                opacity: 0,
+                animation: 'contentReveal 0.3s ease 2.6s forwards',
+              }} />
+
+              {/* Animated pen that follows the signature */}
+              <g style={{
+                animation: 'penMoveFallback 2.5s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards',
+                opacity: 0,
+                transformOrigin: '0 0',
+              }}>
+                {/* Pen body */}
+                <rect x="-3" y="-18" width="6" height="22" rx="1.5" fill="#2c3e50" />
+                {/* Gold band */}
+                <rect x="-3.5" y="-4" width="7" height="3" rx="0.5" fill="#c8922a" />
+                {/* Nib */}
+                <polygon points="0,6 -2,4 2,4" fill="#c8922a" />
+                {/* Nib tip */}
+                <circle cx="0" cy="7" r="0.8" fill="#e8c560" />
+              </g>
+            </svg>
           </div>
 
-          {/* Title */}
+          {/* Title — appears after signature */}
           <h1 style={{
             fontSize: '1.75rem', fontWeight: 800, color: '#fff',
             fontFamily: 'Plus Jakarta Sans,sans-serif', margin: '0 0 0.15rem',
             letterSpacing: '-0.5px',
+            animation: 'contentReveal 0.6s ease 2.2s both',
           }}>
             TYRO <span style={{
-              color: '#c8922a',
               background: 'linear-gradient(135deg, #e8c560, #c8922a, #e8c560)',
               backgroundSize: '200% auto',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
@@ -1004,46 +1062,51 @@ export default function App() {
 
           {/* Accent divider */}
           <div style={{
-            width: 48, height: 3, borderRadius: 2, margin: '0.75rem auto',
+            width: 48, height: 3, borderRadius: 2, margin: '0.6rem auto',
             background: 'linear-gradient(90deg, #c8922a, #0098d4)',
+            animation: 'contentReveal 0.5s ease 2.5s both',
           }} />
 
           <p style={{
-            fontSize: '0.82rem', color: 'rgba(255,255,255,0.55)', margin: '0 0 2rem',
+            fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', margin: '0 0 1.8rem',
             fontWeight: 400, letterSpacing: '0.3px',
+            animation: 'contentReveal 0.5s ease 2.7s both',
           }}>
             {lang === 'tr' ? 'Kurumsal E-Posta İmza Oluşturucu' : 'Corporate Email Signature Studio'}
           </p>
 
           {/* Microsoft Login Button */}
-          <button className="splash-btn" onClick={handleLogin} disabled={authLoading || !msalReady} style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem',
-            width: '100%', padding: '0.85rem 1.5rem', borderRadius: 14,
-            border: '1px solid rgba(200,146,42,0.3)',
-            cursor: (authLoading || !msalReady) ? 'wait' : 'pointer',
-            background: 'linear-gradient(135deg, rgba(200,146,42,0.15), rgba(200,146,42,0.05))',
-            color: '#fff', fontSize: '0.88rem', fontWeight: 600,
-            fontFamily: 'Inter,sans-serif',
-            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-            boxShadow: '0 4px 20px rgba(200,146,42,0.15)',
-            opacity: (authLoading || !msalReady) ? 0.6 : 1,
-            backdropFilter: 'blur(8px)',
-          }}>
-            <svg width="20" height="20" viewBox="0 0 21 21" fill="none">
-              <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
-              <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
-              <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
-              <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
-            </svg>
-            {authLoading
-              ? (lang === 'tr' ? 'Giriş yapılıyor...' : 'Signing in...')
-              : (lang === 'tr' ? 'Microsoft ile Giriş Yap' : 'Sign in with Microsoft')
-            }
-          </button>
+          <div style={{ animation: 'contentReveal 0.5s ease 2.9s both' }}>
+            <button className="splash-btn" onClick={handleLogin} disabled={authLoading || !msalReady} style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.65rem',
+              width: '100%', padding: '0.85rem 1.5rem', borderRadius: 14,
+              border: '1px solid rgba(200,146,42,0.3)',
+              cursor: (authLoading || !msalReady) ? 'wait' : 'pointer',
+              background: 'linear-gradient(135deg, rgba(200,146,42,0.15), rgba(200,146,42,0.05))',
+              color: '#fff', fontSize: '0.88rem', fontWeight: 600,
+              fontFamily: 'Inter,sans-serif',
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              boxShadow: '0 4px 20px rgba(200,146,42,0.15)',
+              opacity: (authLoading || !msalReady) ? 0.6 : 1,
+              backdropFilter: 'blur(8px)',
+            }}>
+              <svg width="20" height="20" viewBox="0 0 21 21" fill="none">
+                <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+                <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+                <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+                <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+              </svg>
+              {authLoading
+                ? (lang === 'tr' ? 'Giriş yapılıyor...' : 'Signing in...')
+                : (lang === 'tr' ? 'Microsoft ile Giriş Yap' : 'Sign in with Microsoft')
+              }
+            </button>
+          </div>
 
           {/* Language toggle */}
           <div style={{
             marginTop: '1.5rem', display: 'flex', justifyContent: 'center', gap: '0.3rem',
+            animation: 'contentReveal 0.4s ease 3.1s both',
           }}>
             {['tr', 'en'].map(l => (
               <button key={l} onClick={() => setLang(l)} style={{
@@ -1053,16 +1116,16 @@ export default function App() {
                 fontFamily: 'Inter,sans-serif',
                 background: lang === l ? 'rgba(200,146,42,0.15)' : 'transparent',
                 color: lang === l ? '#e8c560' : 'rgba(255,255,255,0.35)',
-                transition: 'all 0.2s ease', textTransform: 'uppercase',
-              }}>{l}</button>
+                transition: 'all 0.2s ease',
+              }}>{l.toUpperCase()}</button>
             ))}
           </div>
         </div>
 
-        {/* TTECH Footer — prominent branding */}
+        {/* TTECH Footer */}
         <div style={{
           marginTop: '2.5rem', textAlign: 'center',
-          animation: 'splashFadeUp 0.8s ease-out 0.3s both',
+          animation: 'contentReveal 0.5s ease 3.3s both',
           position: 'relative', zIndex: 2,
         }}>
           <p style={{
@@ -1074,7 +1137,7 @@ export default function App() {
             fontSize: '0.6rem', color: 'rgba(255,255,255,0.25)', margin: 0,
             letterSpacing: '0.5px',
           }}>
-            © 2026 Tiryaki Agro · {lang === 'tr' ? 'Tüm hakları saklıdır' : 'All rights reserved'}
+            {'© 2026 Tiryaki Agro'}
           </p>
         </div>
       </div>
