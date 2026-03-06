@@ -975,18 +975,18 @@ export default function App() {
           position: 'relative', zIndex: 2,
         }}>
 
-          {/* Logo */}
-          <div style={{ marginBottom: '1rem' }}>
-            <TyroLogo size={58} />
-          </div>
-
-          {/* Title */}
+          {/* Title with inline pen logo */}
           <h1 style={{
             fontSize: '1.6rem', fontWeight: 800, color: '#1e3a5f',
             fontFamily: 'Plus Jakarta Sans,sans-serif', margin: '0 0 0.1rem',
             letterSpacing: '-0.5px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.15rem',
           }}>
-            TYRO <span style={{ color: '#c8922a' }}>Sign Snap</span>
+            <span>TYRO</span>{' '}
+            <span style={{ color: '#c8922a' }}>Sign Snap</span>
+            <span style={{ display: 'inline-flex', alignItems: 'flex-end', marginLeft: '-0.1rem', marginBottom: '-0.15rem' }}>
+              <TyroLogo size={32} />
+            </span>
           </h1>
 
           <p style={{
