@@ -6,6 +6,7 @@ import {
   Edit3, Star, X
 } from "lucide-react";
 import { PublicClientApplication, InteractionRequiredAuthError } from '@azure/msal-browser';
+import DEFAULT_LOGO_BASE64 from './defaultLogo.js';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // MSAL CONFIGURATION
@@ -597,7 +598,7 @@ export default function App() {
   const [stg, setStg] = useState({
     companyName: 'Tiryaki Agro Gida San. ve Tic. A.S.', website: 'www.tiryaki.com.tr',
     slogan: 'Good people. Good earth.', logoColor: '#1e3a5f', accentColor: '#0098d4',
-    logoBase64: null, logoW: 120, logoH: 50,
+    logoBase64: DEFAULT_LOGO_BASE64, logoW: 140, logoH: 45,
     social: { linkedin: 'https://www.linkedin.com/company/tiryaki-agro/', twitter: 'https://x.com/tiryakiagro', facebook: 'https://www.facebook.com/tiryakiagro', instagram: 'https://www.instagram.com/tiryakiagro/' },
     // Parametric toggles
     showSDN: true, showFax: true, showAddress: true,
@@ -629,7 +630,7 @@ export default function App() {
     pi: 'Kişisel Bilgiler', ci: 'İletişim',
     coi: 'Şirket Bilgileri', cn: 'Şirket Adı', ws: 'Web Sitesi', sl: 'Slogan',
     lc: 'Metin Rengi', ac: 'Aksan Rengi', sm: 'Sosyal Medya',
-    lu: 'Şirket Logosu', lub: 'Logo Yükle', lr: 'Kaldır', lh: 'PNG/JPG max 200x80px',
+    lu: 'Şirket Logosu', lub: 'Logo Yükle', lr: 'Varsayılan', lh: 'PNG/JPG max 200x80px',
     lw: 'Genişlik', llh: 'Yükseklik', lch: 'Değiştir', so: 'Ofis seçiniz...',
     lv: 'Canlı Önizleme', prog: 'Tamamlanan', of: '/',
     ht: 'Outlook\'a Nasıl Eklenir?',
@@ -670,7 +671,7 @@ export default function App() {
     pi: 'Personal Info', ci: 'Contact',
     coi: 'Company Info', cn: 'Company Name', ws: 'Website', sl: 'Slogan',
     lc: 'Text Color', ac: 'Accent Color', sm: 'Social Media',
-    lu: 'Company Logo', lub: 'Upload Logo', lr: 'Remove', lh: 'PNG/JPG max 200x80px',
+    lu: 'Company Logo', lub: 'Upload Logo', lr: 'Default', lh: 'PNG/JPG max 200x80px',
     lw: 'Width', llh: 'Height', lch: 'Change', so: 'Select office...',
     lv: 'Live Preview', prog: 'Completed', of: '/',
     ht: 'How to Add to Outlook?',
@@ -1643,8 +1644,8 @@ export default function App() {
                           <button onClick={() => fRef.current?.click()} style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', border: `1px solid ${C.borderSub}`, background: '#fff', cursor: 'pointer', fontSize: '0.62rem', color: C.text2, display: 'flex', alignItems: 'center', gap: 4 }}>
                             <Upload size={10} /> {L.lch}
                           </button>
-                          <button onClick={() => { setStg(p => ({ ...p, logoBase64: null, logoW: 120, logoH: 50 })); toast(L.lr, 'info'); }} style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', border: '1px solid rgba(220,38,38,0.2)', background: 'transparent', cursor: 'pointer', fontSize: '0.62rem', color: C.err, display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <Trash size={10} /> {L.lr}
+                          <button onClick={() => { setStg(p => ({ ...p, logoBase64: DEFAULT_LOGO_BASE64, logoW: 140, logoH: 45 })); toast(L.lr, 'info'); }} style={{ padding: '0.35rem 0.6rem', borderRadius: '6px', border: `1px solid ${C.borderSub}`, background: 'transparent', cursor: 'pointer', fontSize: '0.62rem', color: C.text2, display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <RefreshCw size={10} /> {L.lr}
                           </button>
                         </div>
                       </div>
