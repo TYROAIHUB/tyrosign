@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useState, useCallback } from 'react';
 import { User, Phone, Eye, Download } from 'lucide-react';
 import { C } from '../constants/theme';
 import { OFFICES, OFFICE_GROUPS } from '../constants/offices';
@@ -19,8 +19,30 @@ const SignatureTab = memo(({
   copied, doCopy, doReset, showSteps, setShowSteps,
   designOpen, setDesignOpen,
   sigBanner, setSigBanner, bannerFileRef, procBanner,
+  applySignature, msalAccount, toast,
 }) => {
   const [qrOpen, setQrOpen] = useState(false);
+  const [olApplying, setOlApplying] = useState(false);
+
+  const handleOutlookApply = useCallback(async () => {
+    if (!msalAccount) {
+      toast(L.olNoLogin, 'err');
+      return;
+    }
+    if (!window.confirm(L.olConfirm)) return;
+    setOlApplying(true);
+    try {
+      const ok = await applySignature(sigHTML);
+      if (ok) {
+        toast(L.olOk);
+      } else {
+        toast(L.olFail, 'err');
+      }
+    } catch {
+      toast(L.olFail, 'err');
+    }
+    setOlApplying(false);
+  }, [msalAccount, applySignature, sigHTML, toast, L]);
 
   return (
     <div style={{ animation: 'fadeIn 0.35s cubic-bezier(0.22, 1, 0.36, 1)' }}>
@@ -63,7 +85,7 @@ const SignatureTab = memo(({
             <div style={{ height: 1, background: C.borderSub, margin: '0.5rem 0 0.6rem' }} />
 
             <SectionTitle icon={Phone}>{L.ci}</SectionTitle>
-            <FormField label={L.gsm} value={form.gsm} onChange={e => uf('gsm', e.target.value)} placeholder="0545 821 38 08" />
+            <FormField label={L.gsm} value={form.gsm} onChange={e => uf('gsm', e.target.value)} placeholder="0530 914 45 91" />
             <FormField label={L.email} value={form.email} onChange={e => uf('email', e.target.value)} placeholder="cenk.sayli@tiryaki.com.tr" required />
             <div style={{ marginBottom: '0.4rem' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.7rem', fontWeight: 600, color: C.text2, marginBottom: '0.25rem' }}>
@@ -113,6 +135,8 @@ const SignatureTab = memo(({
             <ExportSection
               hasData={hasData} copied={copied} doCopy={doCopy} doReset={doReset}
               onQrClick={() => setQrOpen(true)}
+              onOutlookApply={handleOutlookApply} olApplying={olApplying}
+              msalAccount={msalAccount}
               showSteps={showSteps} setShowSteps={setShowSteps} L={L}
             />
           </GlassCard>
