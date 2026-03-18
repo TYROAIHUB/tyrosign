@@ -169,8 +169,9 @@ export const GLOBAL_CSS = `
     .social-grid { grid-template-columns: 1fr!important; }
     .progress-bar { padding: 0.5rem 0.65rem!important; gap: 0.5rem!important; }
     .glass-card-inner { padding: 0.75rem 0.85rem!important; }
-    .export-btns { flex-direction: column!important; }
-    .export-btns button { width: 100%!important; justify-content: center!important; }
+    .export-btns { grid-template-columns: 1fr!important; }
+    .export-btns .tip-wrap { min-width: 0!important; }
+    .export-btns button { justify-content: flex-start!important; padding-left: 1.2rem!important; }
     .sig-html-wrap > div { zoom: 0.52!important; }
     .sig-body { padding: 0.5rem!important; overflow: hidden!important; }
   }
