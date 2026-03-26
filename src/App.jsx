@@ -148,7 +148,7 @@ export default function App() {
   // ─── Dynamic company logo (lang-aware) ───
   const [companyLogo, setCompanyLogo] = useState({ base64: DEFAULT_LOGO_BASE64, w: DEFAULT_LOGO_W, h: DEFAULT_LOGO_H });
   useEffect(() => {
-    const url = lang === 'tr' ? company.logoTR : company.logoEN;
+    const url = company.id === 'tiryaki-ttech' ? company.logoEN : (lang === 'tr' ? company.logoTR : company.logoEN);
     if (!url) { setCompanyLogo({ base64: DEFAULT_LOGO_BASE64, w: DEFAULT_LOGO_W, h: DEFAULT_LOGO_H }); return; }
     let cancelled = false;
     loadLogo(url).then(result => {
@@ -171,7 +171,7 @@ export default function App() {
   const bannerCompany = useMemo(() => COMPANIES.find(c => c.id === banner.companyId) || COMPANIES[0], [banner.companyId]);
   const [bannerLogo, setBannerLogo] = useState({ base64: DEFAULT_LOGO_BASE64, w: DEFAULT_LOGO_W, h: DEFAULT_LOGO_H });
   useEffect(() => {
-    const url = lang === 'tr' ? bannerCompany.logoTR : bannerCompany.logoEN;
+    const url = bannerCompany.id === 'tiryaki-ttech' ? bannerCompany.logoEN : (lang === 'tr' ? bannerCompany.logoTR : bannerCompany.logoEN);
     if (!url) { setBannerLogo({ base64: DEFAULT_LOGO_BASE64, w: DEFAULT_LOGO_W, h: DEFAULT_LOGO_H }); return; }
     let cancelled = false;
     loadLogo(url).then(result => {
