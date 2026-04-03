@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://www.tiryaki.com.tr/Content/images/logo/tiryaki_logo.svg" alt="Tiryaki Agro" width="200" />
+  <img src="https://tiryaki.com.tr/content/images/uploads/tiryaki-strategic-services,460_small,489_big.png" alt="Tiryaki Agro" width="200" />
 </p>
 
 <h1 align="center">TYRO Sign Snap</h1>
