@@ -14,7 +14,7 @@ const LOGO_COLORS = {
 };
 const StreamLogo = memo(({ size = 28, themeId = 'light' }) => {
   const c = LOGO_COLORS[themeId] || LOGO_COLORS.light;
-  const gId = 'slG_' + themeId; // unique gradient id per theme
+  const gId = 'slG_' + themeId;
   return (
     <svg viewBox="0 0 150 150" fill="none" width={size} height={size} style={{ flexShrink: 0 }}>
       <defs>
