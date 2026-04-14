@@ -154,7 +154,7 @@ export const GLOBAL_CSS = `
     .profile-dropdown { min-width: 200px!important; }
     .nav-tabs-inner { gap: 2px!important; }
     .nav-tab-btn { padding: 0.35rem 0.65rem!important; font-size: 0.7rem!important; gap: 0.2rem!important; }
-    .app-main { padding: 0.65rem 0.75rem 2rem!important; }
+    .app-main { padding: 0.65rem 0.75rem 2rem!important; overflow-x: hidden!important; }
     .sig-grid { grid-template-columns: 1fr!important; gap: 0.75rem!important; }
     .sig-grid > div { animation: fadeIn 0.3s ease-out!important; }
     .sig-sec-personal { order: 1!important; }

@@ -242,6 +242,7 @@ const SearchableSelect = memo(({
             top: 'calc(100% + 4px)',
             maxHeight: 240,
             overflowY: 'auto',
+            overflowX: 'hidden',
             background: '#fff',
             border: `1px solid ${C.borderSub}`,
             borderRadius: 8,
